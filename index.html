@@ -146,6 +146,9 @@
                         <button onclick="switchTab('users')" class="w-full flex items-center gap-3 p-3 rounded-lg text-slate-600 hover:bg-slate-50 border-l-4 border-transparent hover:text-corp-slate transition hidden-view group" id="tab-users">
                             <i class="fa-solid fa-users-gear w-5 text-slate-400 group-hover:text-corp-slate"></i> <span class="whitespace-nowrap">Usuarios y Accesos</span>
                         </button>
+                        <button onclick="switchTab('directory')" class="w-full flex items-center gap-3 p-3 rounded-lg text-slate-600 hover:bg-slate-50 border-l-4 border-transparent hover:text-corp-slate transition hidden-view group" id="tab-directory">
+                            <i class="fa-solid fa-address-book w-5 text-slate-400 group-hover:text-corp-slate"></i> <span class="whitespace-nowrap">Directorio de Correos</span>
+                        </button>
                         <button onclick="switchTab('audit')" class="w-full flex items-center gap-3 p-3 rounded-lg text-slate-600 hover:bg-slate-50 border-l-4 border-transparent hover:text-corp-slate transition hidden-view group" id="tab-audit">
                             <i class="fa-solid fa-trash-can-arrow-up w-5 text-slate-400 group-hover:text-corp-slate"></i> <span class="whitespace-nowrap">Auditoría de Eliminados</span>
                         </button>
@@ -271,6 +274,38 @@
                     </div>
                 </div>
 
+                <div id="view-directory" class="hidden-view w-full max-w-4xl">
+                    <h2 class="text-lg font-bold text-corp-slate border-l-4 border-corp-red pl-3 mb-5">Directorio de Correos para Notificaciones</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 border-t-4 border-t-blue-600 md:col-span-1 h-min">
+                            <h3 class="text-sm font-bold text-slate-800 mb-3"><i class="fa-solid fa-address-book mr-2 text-blue-600"></i>Agregar Correo</h3>
+                            <p class="text-xs text-slate-500 mb-4">Los correos aquí registrados aparecerán como autocompletado rápido al momento de crear un nuevo control.</p>
+                            <form id="add-directory-form" class="space-y-3">
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wide mb-1">Dirección de Correo</label>
+                                    <input type="email" id="add-d-email" class="w-full p-2 border border-slate-300 rounded focus:border-blue-500 outline-none text-sm" placeholder="ejemplo@minera.com" required>
+                                </div>
+                                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition font-bold shadow text-xs">
+                                    <i class="fa-solid fa-plus mr-1"></i> Agregar al Directorio
+                                </button>
+                            </form>
+                        </div>
+
+                        <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden md:col-span-2">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-100 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200">
+                                        <th class="p-3 font-bold">Correo Configurado</th>
+                                        <th class="p-3 font-bold text-center w-24">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="directory-list" class="text-sm divide-y divide-slate-100"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
                 <div id="view-audit" class="hidden-view w-full">
                     <div class="flex justify-between items-center mb-5">
                         <h2 class="text-lg font-bold text-corp-slate border-l-4 border-corp-red pl-3">Registros Eliminados (Auditoría de Seguridad)</h2>
@@ -298,14 +333,14 @@
     </div>
 
     <div id="modal-control" class="hidden fixed inset-0 bg-slate-900 bg-opacity-70 z-50 flex justify-center items-center p-4 backdrop-blur-sm transition-opacity">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-3xl border-t-4 border-corp-red p-5 relative overflow-y-auto max-h-full">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-rose-500 transition text-xl"><i class="fa-solid fa-xmark"></i></button>
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-3xl border-t-4 border-corp-red p-5 relative overflow-y-visible max-h-[95vh] flex flex-col">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-rose-500 transition text-xl z-50"><i class="fa-solid fa-xmark"></i></button>
             
-            <h2 id="form-title" class="text-xl font-bold text-slate-800 border-l-4 border-corp-slate pl-3 flex items-center gap-2 mb-6 mt-1">
+            <h2 id="form-title" class="text-xl font-bold text-slate-800 border-l-4 border-corp-slate pl-3 flex items-center gap-2 mb-6 mt-1 shrink-0">
                 <i class="fa-solid fa-plus-circle text-corp-slate"></i> Registrar Nuevo Control
             </h2>
             
-            <form id="item-form" class="space-y-4">
+            <form id="item-form" class="space-y-4 overflow-y-auto flex-1 pr-2">
                 <input type="hidden" id="item-id" value="">
                 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -328,10 +363,18 @@
                         <label class="text-xs font-bold text-slate-600 uppercase block mb-1">Fecha de Vencimiento</label>
                         <input type="date" id="item-date" class="w-full p-2.5 border border-slate-300 rounded focus:border-corp-red outline-none text-sm" required>
                     </div>
-                    <div class="lg:col-span-2">
-                        <label class="text-xs font-bold text-slate-600 uppercase block mb-1">Correos a Notificar (Separados por coma)</label>
-                        <input type="text" id="item-emails" placeholder="supervision.rescate@gmail.com, admin@minera.com" class="w-full p-2.5 border border-slate-300 rounded focus:border-corp-red outline-none text-sm text-blue-600" required>
+                    
+                    <div class="lg:col-span-2 relative">
+                        <label class="text-xs font-bold text-slate-600 uppercase block mb-1">Correos a Notificar</label>
+                        <div class="flex flex-wrap gap-1.5 p-2 border border-slate-300 rounded focus-within:border-corp-red focus-within:ring-1 focus-within:ring-corp-red bg-white min-h-[44px]" id="email-tags-container" onclick="document.getElementById('email-input').focus()">
+                            <div id="email-tags-list" class="flex flex-wrap gap-1.5"></div>
+                            <input type="text" id="email-input" class="outline-none text-sm flex-1 min-w-[180px] bg-transparent" placeholder="Escriba correo y presione Enter o Coma..." oninput="handleEmailInput(event)" onkeydown="handleEmailKeydown(event)">
+                        </div>
+                        <ul id="email-autocomplete" class="absolute w-full bg-white border border-slate-300 rounded shadow-lg z-50 hidden max-h-40 overflow-y-auto mt-1 divide-y divide-slate-100"></ul>
+                        <input type="hidden" id="item-emails" required>
+                        <p class="text-[10px] text-slate-400 mt-1">Puede escribir cualquier correo, no necesita estar en el directorio. Presione 'Enter' para agregarlo.</p>
                     </div>
+
                     <div>
                         <label class="text-xs font-bold text-slate-600 uppercase block mb-1">Avisar antes de (Días)</label>
                         <input type="number" id="item-warning-days" value="30" min="1" class="w-full p-2.5 border border-slate-300 rounded focus:border-corp-red outline-none text-sm" required>
@@ -353,9 +396,9 @@
                     </label>
                 </div>
 
-                <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-slate-100">
+                <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-slate-100 shrink-0">
                     <button type="button" onclick="closeModal()" class="px-5 py-2.5 bg-slate-200 text-slate-700 rounded hover:bg-slate-300 transition text-sm font-bold">Cancelar</button>
-                    <button type="submit" class="px-6 py-2.5 bg-corp-slate text-white rounded hover:bg-slate-800 transition shadow-md text-sm font-bold flex items-center gap-2">
+                    <button type="button" onclick="submitControlForm()" class="px-6 py-2.5 bg-corp-slate text-white rounded hover:bg-slate-800 transition shadow-md text-sm font-bold flex items-center gap-2">
                         <i class="fa-solid fa-save"></i> Guardar Registro
                     </button>
                 </div>
@@ -400,6 +443,10 @@
         let allDeletedData = [];
         let globalCategoryFilter = ''; 
 
+        // Variables para Autocompletado
+        let emailTags = [];
+        let emailDirectory = [];
+
         const catIcons = {
             "Documentos SIG": "fa-folder-open text-blue-500",
             "Material de entrenamiento": "fa-chalkboard-user text-orange-500",
@@ -427,7 +474,7 @@
         }
 
         function switchTab(tab) {
-            const views = ['dashboard', 'users', 'audit'];
+            const views = ['dashboard', 'users', 'audit', 'directory'];
             views.forEach(v => {
                 document.getElementById(`view-${v}`).classList.add('hidden-view');
                 const btn = document.getElementById(`tab-${v}`);
@@ -454,24 +501,29 @@
             const adminDivider = document.getElementById('admin-divider');
             const tabUsers = document.getElementById('tab-users');
             const tabAudit = document.getElementById('tab-audit');
+            const tabDir = document.getElementById('tab-directory');
 
             if (rol === 'lector') {
                 btnOpenModal.classList.add('hidden-view');
                 adminDivider.classList.add('hidden-view');
                 tabUsers.classList.add('hidden-view');
                 tabAudit.classList.add('hidden-view');
+                tabDir.classList.add('hidden-view');
             } else if (rol === 'editor') {
                 btnOpenModal.classList.remove('hidden-view');
                 adminDivider.classList.add('hidden-view');
                 tabUsers.classList.add('hidden-view');
                 tabAudit.classList.add('hidden-view');
+                tabDir.classList.add('hidden-view');
             } else if (rol === 'admin') {
                 btnOpenModal.classList.remove('hidden-view');
                 adminDivider.classList.remove('hidden-view');
                 tabUsers.classList.remove('hidden-view');
                 tabAudit.classList.remove('hidden-view');
+                tabDir.classList.remove('hidden-view');
                 loadUsers();
                 loadDeletedAuditData();
+                loadEmailDirectory();
             }
         }
 
@@ -526,9 +578,115 @@
             if(!dateString) return '-';
             return dateString.split('-').reverse().join('/');
         }
+        function validateEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
 
         /* ========================================================
-           4. AUTENTICACIÓN
+           LÓGICA DE ETIQUETAS DE CORREO Y AUTOCOMPLETADO
+           ======================================================== */
+        function loadEmailDirectory() {
+            db.collection("directorio_correos").onSnapshot(snap => {
+                emailDirectory = [];
+                const tbody = document.getElementById('directory-list');
+                if(tbody) tbody.innerHTML = '';
+                snap.forEach(doc => {
+                    const data = doc.data();
+                    emailDirectory.push({ id: doc.id, email: data.email });
+                    if(tbody) {
+                        tbody.innerHTML += `
+                            <tr class="border-b border-slate-100 hover:bg-slate-50 transition">
+                                <td class="p-3 text-sm text-slate-700 font-medium">${data.email}</td>
+                                <td class="p-3 text-center w-20"><button onclick="deleteDirEmail('${doc.id}')" class="text-rose-500 hover:bg-rose-100 p-1.5 rounded transition"><i class="fa-solid fa-trash"></i></button></td>
+                            </tr>
+                        `;
+                    }
+                });
+            });
+        }
+
+        document.getElementById('add-directory-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const input = document.getElementById('add-d-email');
+            const emailVal = input.value.trim().toLowerCase();
+            if(emailDirectory.find(d => d.email === emailVal)) { alert("Este correo ya está en el directorio."); return; }
+            await db.collection("directorio_correos").add({ email: emailVal });
+            input.value = '';
+        });
+
+        window.deleteDirEmail = async (id) => {
+            if(confirm("¿Quitar este correo del directorio de autocompletado?")) {
+                await db.collection("directorio_correos").doc(id).delete();
+            }
+        };
+
+        window.handleEmailInput = (e) => {
+            const val = e.target.value.toLowerCase().trim();
+            const list = document.getElementById('email-autocomplete');
+            list.innerHTML = '';
+            if(!val) { list.classList.add('hidden'); return; }
+            
+            const matches = emailDirectory.filter(d => d.email.includes(val) && !emailTags.includes(d.email));
+            if(matches.length > 0) {
+                matches.forEach(m => {
+                    list.innerHTML += `<li onclick="addEmailTag('${m.email}')" class="px-3 py-2 hover:bg-blue-50 cursor-pointer text-sm text-slate-700 transition flex items-center gap-2"><i class="fa-regular fa-envelope text-blue-400"></i> ${m.email}</li>`;
+                });
+                list.classList.remove('hidden');
+            } else {
+                list.classList.add('hidden');
+            }
+        };
+
+        window.handleEmailKeydown = (e) => {
+            if(e.key === 'Enter' || e.key === ',') {
+                e.preventDefault();
+                const val = e.target.value.trim().replace(',', '').toLowerCase();
+                if(val && validateEmail(val)) {
+                    addEmailTag(val);
+                } else if(val) {
+                    alert("Formato de correo inválido");
+                }
+            }
+        };
+
+        window.addEmailTag = (email) => {
+            if(!emailTags.includes(email)) {
+                emailTags.push(email);
+                renderEmailTags();
+            }
+            document.getElementById('email-input').value = '';
+            document.getElementById('email-autocomplete').classList.add('hidden');
+            document.getElementById('email-input').focus();
+        };
+
+        window.removeEmailTag = (email) => {
+            emailTags = emailTags.filter(e => e !== email);
+            renderEmailTags();
+        };
+
+        function renderEmailTags() {
+            const container = document.getElementById('email-tags-list');
+            container.innerHTML = '';
+            emailTags.forEach(e => {
+                container.innerHTML += `
+                    <span class="bg-blue-100 text-blue-800 text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1.5 shadow-sm border border-blue-200">
+                        ${e} <i class="fa-solid fa-circle-xmark cursor-pointer hover:text-red-500 text-blue-400 transition" onclick="removeEmailTag('${e}')"></i>
+                    </span>`;
+            });
+            document.getElementById('item-emails').value = emailTags.join(',');
+        }
+
+        // Cierra el autocompletado si se hace clic afuera
+        document.addEventListener('click', function(event) {
+            const container = document.getElementById('email-tags-container');
+            const list = document.getElementById('email-autocomplete');
+            if (container && !container.contains(event.target) && !list.contains(event.target)) {
+                list.classList.add('hidden');
+            }
+        });
+
+        /* ========================================================
+           AUTENTICACIÓN
            ======================================================== */
         auth.onAuthStateChanged(async (user) => {
             if (user) {
@@ -590,7 +748,7 @@
         document.getElementById('btn-logout').addEventListener('click', () => auth.signOut());
 
         /* ========================================================
-           5. GESTIÓN DE VIGENCIAS (CRUD E HISTORIAL INTERNO)
+           GESTIÓN DE VIGENCIAS (CRUD E HISTORIAL INTERNO)
            ======================================================== */
         function loadItemsData() {
             db.collection("vigencias").onSnapshot(snapshot => {
@@ -661,8 +819,12 @@
             document.getElementById('count-good').innerText = cGood;
         }
 
-        document.getElementById('item-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
+        // Nueva función de guardado para disparar desde botón (diferente al submit por defecto)
+        window.submitControlForm = async () => {
+            const form = document.getElementById('item-form');
+            if(!form.checkValidity()) { form.reportValidity(); return; }
+            if(emailTags.length === 0) { alert("Debe agregar al menos un correo de notificación."); return; }
+
             const id = document.getElementById('item-id').value;
             const sendNow = document.getElementById('item-send-now').checked;
             
@@ -679,7 +841,6 @@
             data.vencimientoEnviado = false;
 
             if (id) {
-                // Generar objeto de historial dentro del mismo registro
                 const comentario = document.getElementById('item-comment').value;
                 const oldItem = allItems.find(x => x.id === id);
                 
@@ -702,7 +863,7 @@
             } else {
                 await db.collection("vigencias").add({
                     ...data,
-                    historial: [], // Array vacío inicial
+                    historial: [], 
                     creadoPor: currentUserData.nombre,
                     fechaCreacion: new Date().toISOString()
                 });
@@ -711,7 +872,7 @@
             }
             
             closeModal();
-        });
+        };
 
         window.openModal = () => {
             document.getElementById('item-form').reset();
@@ -720,10 +881,14 @@
             
             document.getElementById('comment-container').classList.add('hidden');
             document.getElementById('item-comment').required = false;
+            
+            emailTags = [];
+            renderEmailTags();
 
             if(globalCategoryFilter) document.getElementById('item-category').value = globalCategoryFilter;
             document.getElementById('modal-control').classList.remove('hidden');
         };
+        
         window.closeModal = () => document.getElementById('modal-control').classList.add('hidden');
 
         window.editItem = (id) => {
@@ -734,10 +899,12 @@
             document.getElementById('item-name').value = item.nombre;
             document.getElementById('item-category').value = item.categoria;
             document.getElementById('item-date').value = item.fechaVencimiento;
-            document.getElementById('item-emails').value = item.correosNotificacion;
             document.getElementById('item-warning-days').value = item.diasAviso;
             document.getElementById('item-send-now').checked = false;
             
+            emailTags = item.correosNotificacion ? item.correosNotificacion.split(',') : [];
+            renderEmailTags();
+
             document.getElementById('item-comment').value = '';
             document.getElementById('comment-container').classList.remove('hidden');
             document.getElementById('item-comment').required = true;
@@ -763,7 +930,6 @@
             if(!item.historial || item.historial.length === 0) {
                 timeline.innerHTML = `<div class="text-sm text-slate-500 italic p-4 text-center">No hay modificaciones registradas posteriores a su creación.</div>`;
             } else {
-                // Ordenar historial de más reciente a más antiguo
                 const histSorted = [...item.historial].sort((a,b) => new Date(b.fechaActualizacionCierre) - new Date(a.fechaActualizacionCierre));
                 
                 histSorted.forEach(h => {
@@ -801,14 +967,13 @@
             }
 
             if(confirm("¿Confirmas la eliminación definitiva de este registro activo?")) {
-                // Registrar en Auditoría de Eliminados (Copia completa del registro + motivo)
                 await db.collection("auditoria_eliminados").add({
                     fechaEliminacion: new Date().toISOString(),
                     usuarioResponsable: currentUserData.nombre,
                     equipoEliminado: item.nombre,
                     categoria: item.categoria,
                     motivo: motivo,
-                    dataRespaldo: item // Toda la información, incluyendo historial
+                    dataRespaldo: item 
                 });
 
                 await db.collection("vigencias").doc(id).delete();
@@ -817,7 +982,7 @@
         };
 
         /* ========================================================
-           6. AUDITORÍA DE ELIMINADOS (SOLO ADMIN)
+           AUDITORÍA DE ELIMINADOS (SOLO ADMIN)
            ======================================================== */
         function loadDeletedAuditData() {
             db.collection("auditoria_eliminados").orderBy("fechaEliminacion", "desc").onSnapshot(snapshot => {
@@ -849,7 +1014,7 @@
         }
 
         /* ========================================================
-           7. GESTIÓN DE USUARIOS (ADMIN)
+           GESTIÓN DE USUARIOS (ADMIN)
            ======================================================== */
         function loadUsers() {
             db.collection("usuarios").onSnapshot(snapshot => {
@@ -908,7 +1073,7 @@
         };
 
         /* ========================================================
-           8. EXPORTAR A EXCEL (SheetJS)
+           EXPORTAR A EXCEL (SheetJS)
            ======================================================== */
         window.exportToExcel = () => {
             let itemsToExport = allItems;
