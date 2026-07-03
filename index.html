@@ -165,11 +165,12 @@
             <main class="flex-1 relative overflow-y-auto bg-slate-100 w-full min-w-0 shadow-inner p-3 sm:p-5">
                 
                 <div id="view-dashboard" class="w-full block">
+                    
                     <div class="bg-white p-3 rounded-lg shadow-sm border border-slate-200 mb-4 flex flex-col md:flex-row justify-between items-center gap-3">
                         <div class="flex items-center gap-2 w-full md:w-auto">
                             <i class="fa-solid fa-magnifying-glass text-slate-400"></i>
                             <input type="text" id="filter-text" placeholder="Buscar en lista..." class="w-full md:w-64 p-1.5 border-b border-slate-300 focus:border-corp-red outline-none text-sm bg-transparent" onkeyup="renderItems()">
-                            <span id="active-category-label" class="text-[10px] font-bold text-corp-red bg-red-50 border border-red-200 px-2 py-1 rounded ml-2 uppercase hidden sm:inline-block">TODAS LAS CATEGORÍAS</span>
+                            <span id="active-category-label" class="text-[10px] font-bold text-slate-500 bg-slate-100 border border-slate-200 px-2 py-1 rounded ml-2 uppercase hidden sm:inline-block">TODAS LAS CATEGORÍAS</span>
                         </div>
                         <div class="flex flex-wrap gap-2 w-full md:w-auto">
                             <button onclick="exportToExcel()" class="flex-1 md:flex-none bg-slate-700 text-white px-4 py-2 rounded text-xs hover:bg-slate-800 shadow flex justify-center items-center gap-2 transition font-bold">
@@ -181,20 +182,23 @@
                         </div>
                     </div>
 
+                    <div id="dashboard-summary" class="mb-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 hidden">
+                        </div>
+
                     <div class="space-y-6">
                         <div>
                             <h3 class="text-[11px] font-bold text-corp-red uppercase tracking-widest mb-2 flex items-center gap-2">
                                 <i class="fa-solid fa-triangle-exclamation"></i> Vencidos o Críticos (<span id="count-overdue">0</span>)
                             </h3>
                             <div class="bg-white rounded-xl shadow border border-red-200 overflow-hidden">
-                                <table class="w-full text-left border-collapse min-w-[800px]">
+                                <table class="w-full text-left border-collapse min-w-[800px] table-fixed">
                                     <thead>
                                         <tr class="bg-red-50 text-corp-red uppercase text-[10px] tracking-wider border-b border-red-200">
-                                            <th class="p-3 font-bold w-1/3">Descripción / Categoría</th>
-                                            <th class="p-3 font-bold text-center">F. Vencimiento</th>
-                                            <th class="p-3 font-bold text-center">Estado</th>
-                                            <th class="p-3 font-bold text-center">Notificaciones</th>
-                                            <th class="p-3 font-bold text-center">Acciones</th>
+                                            <th class="p-3 font-bold w-5/12">Descripción / Categoría</th>
+                                            <th class="p-3 font-bold text-center w-2/12">F. Vencimiento</th>
+                                            <th class="p-3 font-bold text-center w-2/12">Estado</th>
+                                            <th class="p-3 font-bold text-center w-1/12">Notificaciones</th>
+                                            <th class="p-3 font-bold text-center w-2/12">Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody id="list-overdue" class="text-sm divide-y divide-red-100"></tbody>
@@ -207,7 +211,16 @@
                                 <i class="fa-solid fa-bell"></i> En Alerta Amarilla (<span id="count-warning">0</span>)
                             </h3>
                             <div class="bg-white rounded-xl shadow border border-amber-200 overflow-hidden">
-                                <table class="w-full text-left border-collapse min-w-[800px]">
+                                <table class="w-full text-left border-collapse min-w-[800px] table-fixed">
+                                    <thead>
+                                        <tr class="bg-amber-50 text-amber-800 uppercase text-[10px] tracking-wider border-b border-amber-200">
+                                            <th class="p-3 font-bold w-5/12">Descripción / Categoría</th>
+                                            <th class="p-3 font-bold text-center w-2/12">F. Vencimiento</th>
+                                            <th class="p-3 font-bold text-center w-2/12">Estado</th>
+                                            <th class="p-3 font-bold text-center w-1/12">Notificaciones</th>
+                                            <th class="p-3 font-bold text-center w-2/12">Acciones</th>
+                                        </tr>
+                                    </thead>
                                     <tbody id="list-warning" class="text-sm divide-y divide-amber-100"></tbody>
                                 </table>
                             </div>
@@ -218,7 +231,16 @@
                                 <i class="fa-solid fa-circle-check"></i> Controles Vigentes (<span id="count-good">0</span>)
                             </h3>
                             <div class="bg-white rounded-xl shadow border border-emerald-200 overflow-hidden opacity-90">
-                                <table class="w-full text-left border-collapse min-w-[800px]">
+                                <table class="w-full text-left border-collapse min-w-[800px] table-fixed">
+                                    <thead>
+                                        <tr class="bg-emerald-50 text-emerald-800 uppercase text-[10px] tracking-wider border-b border-emerald-200">
+                                            <th class="p-3 font-bold w-5/12">Descripción / Categoría</th>
+                                            <th class="p-3 font-bold text-center w-2/12">F. Vencimiento</th>
+                                            <th class="p-3 font-bold text-center w-2/12">Estado</th>
+                                            <th class="p-3 font-bold text-center w-1/12">Notificaciones</th>
+                                            <th class="p-3 font-bold text-center w-2/12">Acciones</th>
+                                        </tr>
+                                    </thead>
                                     <tbody id="list-good" class="text-sm divide-y divide-emerald-100"></tbody>
                                 </table>
                             </div>
@@ -527,34 +549,6 @@
             }
         }
 
-        window.filterByCategory = (catName) => {
-            globalCategoryFilter = catName;
-            
-            const allItemsMenu = document.querySelectorAll('#sidebar-categories li');
-            allItemsMenu.forEach(el => {
-                el.classList.remove('bg-slate-100', 'text-slate-700', 'font-bold');
-                if(el.id !== 'cat-all') el.classList.add('text-slate-600');
-            });
-
-            const activeEl = document.getElementById(catName === '' ? 'cat-all' : `cat-${catName}`);
-            if (activeEl) {
-                activeEl.classList.remove('text-slate-600');
-                activeEl.classList.add('bg-slate-100', 'text-slate-700', 'font-bold');
-            }
-
-            const label = document.getElementById('active-category-label');
-            if(catName === '') {
-                label.innerText = 'TODAS LAS CATEGORÍAS';
-                label.className = 'text-[10px] font-bold text-slate-500 bg-slate-100 border border-slate-200 px-2 py-1 rounded ml-2 uppercase hidden sm:inline-block';
-            } else {
-                label.innerText = catName;
-                label.className = 'text-[10px] font-bold text-corp-red bg-red-50 border border-red-200 px-2 py-1 rounded ml-2 uppercase hidden sm:inline-block';
-            }
-
-            renderItems();
-            if (window.innerWidth < 768) { toggleSidebar(); }
-        };
-
         function getStatusInfo(targetDateStr, warningDays) {
             const today = new Date();
             today.setHours(0,0,0,0);
@@ -676,7 +670,6 @@
             document.getElementById('item-emails').value = emailTags.join(',');
         }
 
-        // Cierra el autocompletado si se hace clic afuera
         document.addEventListener('click', function(event) {
             const container = document.getElementById('email-tags-container');
             const list = document.getElementById('email-autocomplete');
@@ -758,26 +751,73 @@
             });
         }
 
+        window.filterByCategory = (catName) => {
+            globalCategoryFilter = catName;
+            
+            const allItemsMenu = document.querySelectorAll('#sidebar-categories li');
+            allItemsMenu.forEach(el => {
+                el.classList.remove('bg-slate-100', 'text-slate-700', 'font-bold');
+                if(el.id !== 'cat-all') el.classList.add('text-slate-600');
+            });
+
+            const activeEl = document.getElementById(catName === '' ? 'cat-all' : `cat-${catName}`);
+            if (activeEl) {
+                activeEl.classList.remove('text-slate-600');
+                activeEl.classList.add('bg-slate-100', 'text-slate-700', 'font-bold');
+            }
+
+            const label = document.getElementById('active-category-label');
+            if(catName === '') {
+                label.innerText = 'TODAS LAS CATEGORÍAS';
+                label.className = 'text-[10px] font-bold text-slate-500 bg-slate-100 border border-slate-200 px-2 py-1 rounded ml-2 uppercase hidden sm:inline-block';
+            } else {
+                label.innerText = catName;
+                label.className = 'text-[10px] font-bold text-corp-red bg-red-50 border border-red-200 px-2 py-1 rounded ml-2 uppercase hidden sm:inline-block';
+            }
+
+            renderItems();
+            if (window.innerWidth < 768) { toggleSidebar(); }
+        };
+
         function renderItems() {
             const filterText = document.getElementById('filter-text').value.toLowerCase();
             const listOverdue = document.getElementById('list-overdue');
             const listWarning = document.getElementById('list-warning');
             const listGood = document.getElementById('list-good');
+            const summaryContainer = document.getElementById('dashboard-summary');
 
             listOverdue.innerHTML = ''; listWarning.innerHTML = ''; listGood.innerHTML = '';
             let cOverdue = 0, cWarning = 0, cGood = 0;
+
+            // Objeto para llevar el conteo para el Dashboard Summary
+            const categoryCounts = {
+                "Documentos SIG": { overdue: 0, warning: 0 },
+                "Material de entrenamiento": { overdue: 0, warning: 0 },
+                "Calibraciones": { overdue: 0, warning: 0 },
+                "Mantenimientos preventivos / correctivos": { overdue: 0, warning: 0 },
+                "Fin de vida útil": { overdue: 0, warning: 0 },
+                "Certificaciones": { overdue: 0, warning: 0 }
+            };
 
             let sortedItems = [...allItems];
             sortedItems.sort((a, b) => new Date(a.fechaVencimiento) - new Date(b.fechaVencimiento));
 
             sortedItems.forEach(item => {
-                if (filterText && !item.nombre.toLowerCase().includes(filterText)) return;
-                if (globalCategoryFilter && item.categoria !== globalCategoryFilter) return;
-
+                // Cálculo de estado
                 const st = getStatusInfo(item.fechaVencimiento, item.diasAviso);
                 const isOverdue = st.status === 'overdue';
                 const isWarn = st.status === 'warning';
-                
+
+                // Agregar al conteo del dashboard general antes de filtrar visualmente
+                if (categoryCounts[item.categoria]) {
+                    if (isOverdue) categoryCounts[item.categoria].overdue++;
+                    if (isWarn) categoryCounts[item.categoria].warning++;
+                }
+
+                // Filtrar visualmente las listas inferiores
+                if (filterText && !item.nombre.toLowerCase().includes(filterText)) return;
+                if (globalCategoryFilter && item.categoria !== globalCategoryFilter) return;
+
                 const catIcon = catIcons[item.categoria] || 'fa-circle-dot text-slate-400';
 
                 const statusBadge = isOverdue ? `<span class="bg-red-600 text-white px-2 py-1 rounded text-[10px] font-bold shadow-sm uppercase"><i class="fa-solid fa-xmark mr-1"></i> ${st.label}</span>` :
@@ -796,9 +836,9 @@
 
                 const rowHTML = `
                     <tr class="hover:bg-slate-50 transition ${isOverdue ? 'bg-red-50/50' : isWarn ? 'bg-amber-50/30' : ''}">
-                        <td class="p-3">
-                            <div class="font-bold text-slate-800 text-sm">${item.nombre}</div>
-                            <div class="text-[10px] text-slate-500 mt-1 uppercase tracking-wider font-semibold"><i class="fa-solid ${catIcon} mr-1"></i> ${item.categoria}</div>
+                        <td class="p-3 overflow-hidden break-words whitespace-normal">
+                            <div class="font-bold text-slate-800 text-sm break-words">${item.nombre}</div>
+                            <div class="text-[10px] text-slate-500 mt-1 uppercase tracking-wider font-semibold break-words"><i class="fa-solid ${catIcon} mr-1"></i> ${item.categoria}</div>
                         </td>
                         <td class="p-3 text-center font-bold text-slate-700 text-sm">${item.fechaVencimiento.split('-').reverse().join('/')}</td>
                         <td class="p-3 text-center">${statusBadge}</td>
@@ -817,9 +857,35 @@
             document.getElementById('count-overdue').innerText = cOverdue;
             document.getElementById('count-warning').innerText = cWarning;
             document.getElementById('count-good').innerText = cGood;
+
+            // Renderizar Dashboard Summary si estamos en "Todas las Categorías"
+            if (globalCategoryFilter === '') {
+                summaryContainer.innerHTML = '';
+                Object.keys(categoryCounts).forEach(cat => {
+                    const counts = categoryCounts[cat];
+                    const catIcon = catIcons[cat] || 'fa-circle-dot text-slate-400';
+                    summaryContainer.innerHTML += `
+                        <div class="bg-white p-3 rounded-xl shadow-sm border border-slate-200 flex flex-col items-center text-center">
+                            <div class="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-2 h-8 flex items-center justify-center break-words w-full leading-tight"><i class="fa-solid ${catIcon} mr-1"></i> ${cat}</div>
+                            <div class="flex gap-3">
+                                <div class="flex flex-col items-center" title="Vencidos / Críticos">
+                                    <span class="text-lg font-bold text-red-600 leading-none">${counts.overdue}</span>
+                                    <span class="text-[9px] text-red-400 font-bold uppercase mt-1">Vencido</span>
+                                </div>
+                                <div class="flex flex-col items-center" title="En Alerta Amarilla">
+                                    <span class="text-lg font-bold text-amber-500 leading-none">${counts.warning}</span>
+                                    <span class="text-[9px] text-amber-400 font-bold uppercase mt-1">Alerta</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                summaryContainer.classList.remove('hidden');
+            } else {
+                summaryContainer.classList.add('hidden');
+            }
         }
 
-        // Nueva función de guardado para disparar desde botón (diferente al submit por defecto)
         window.submitControlForm = async () => {
             const form = document.getElementById('item-form');
             if(!form.checkValidity()) { form.reportValidity(); return; }
@@ -918,7 +984,6 @@
             document.getElementById('item-date').focus();
         };
 
-        // HISTORIAL MODAL (Individual)
         window.openHistoryModal = (id) => {
             const item = allItems.find(x => x.id === id);
             if(!item) return;
@@ -955,7 +1020,6 @@
         };
         window.closeHistoryModal = () => document.getElementById('modal-history').classList.add('hidden');
 
-        // ELIMINACIÓN HACIA AUDITORÍA GLOBAL
         window.deleteItem = async (id) => {
             const item = allItems.find(x => x.id === id);
             
