@@ -36,6 +36,7 @@
 </head>
 <body class="text-slate-800 font-sans relative flex flex-col">
 
+    <!-- PANTALLA DE LOGIN -->
     <div id="auth-screen" class="flex h-full justify-center items-center bg-slate-200 p-4 relative z-50 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]">
         <div class="bg-white p-6 md:p-8 rounded-xl shadow-2xl w-full max-w-md border-t-4 border-corp-red overflow-y-auto max-h-full">
             <div class="text-center mb-6">
@@ -65,6 +66,7 @@
         </div>
     </div>
 
+    <!-- APLICACIÓN PRINCIPAL -->
     <div id="app-screen" class="hidden-view h-full flex flex-col relative w-full overflow-hidden">
         
         <header class="bg-corp-slate text-white p-3 sm:p-4 flex justify-between items-center shadow-md z-20 shrink-0 border-b-4 border-corp-red">
@@ -113,36 +115,22 @@
 
                     <div class="mt-2">
                         <div class="px-5 py-2 flex justify-between items-center">
-                            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Filtro por Categorías</span>
+                            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Filtro Visual</span>
                         </div>
                         <ul class="px-2 space-y-0.5" id="sidebar-categories">
-                            <li onclick="filterByCategory('')" class="cursor-pointer px-3 py-2 rounded-lg flex items-center gap-3 text-sm transition font-bold bg-slate-100 text-slate-700" id="cat-all">
-                                <i class="fa-solid fa-layer-group text-slate-400 w-4 text-center"></i> <span>Todas las Categorías</span>
-                            </li>
-                            <li onclick="filterByCategory('Documentos SIG')" class="cursor-pointer px-3 py-2 rounded-lg flex items-center gap-3 text-sm transition text-slate-600 hover:bg-blue-50 hover:text-blue-700" id="cat-Documentos SIG">
-                                <i class="fa-solid fa-folder-open text-blue-500 w-4 text-center"></i> <span>Documentos SIG</span>
-                            </li>
-                            <li onclick="filterByCategory('Material de entrenamiento')" class="cursor-pointer px-3 py-2 rounded-lg flex items-center gap-3 text-sm transition text-slate-600 hover:bg-orange-50 hover:text-orange-700" id="cat-Material de entrenamiento">
-                                <i class="fa-solid fa-chalkboard-user text-orange-500 w-4 text-center"></i> <span>Mat. Entrenamiento</span>
-                            </li>
-                            <li onclick="filterByCategory('Calibraciones')" class="cursor-pointer px-3 py-2 rounded-lg flex items-center gap-3 text-sm transition text-slate-600 hover:bg-yellow-50 hover:text-yellow-700" id="cat-Calibraciones">
-                                <i class="fa-solid fa-scale-balanced text-yellow-500 w-4 text-center"></i> <span>Calibraciones</span>
-                            </li>
-                            <li onclick="filterByCategory('Mantenimientos preventivos / correctivos')" class="cursor-pointer px-3 py-2 rounded-lg flex items-center gap-3 text-sm transition text-slate-600 hover:bg-red-50 hover:text-red-700 leading-tight" id="cat-Mantenimientos preventivos / correctivos">
-                                <i class="fa-solid fa-screwdriver-wrench text-red-500 w-4 text-center"></i> <span>Mantenimientos prev/corr</span>
-                            </li>
-                            <li onclick="filterByCategory('Fin de vida útil')" class="cursor-pointer px-3 py-2 rounded-lg flex items-center gap-3 text-sm transition text-slate-600 hover:bg-slate-200 hover:text-slate-800" id="cat-Fin de vida útil">
-                                <i class="fa-solid fa-recycle text-slate-500 w-4 text-center"></i> <span>Fin de vida útil</span>
-                            </li>
-                            <li onclick="filterByCategory('Certificaciones')" class="cursor-pointer px-3 py-2 rounded-lg flex items-center gap-3 text-sm transition text-slate-600 hover:bg-emerald-50 hover:text-emerald-700" id="cat-Certificaciones">
-                                <i class="fa-solid fa-award text-emerald-500 w-4 text-center"></i> <span>Certificaciones</span>
-                            </li>
+                            <!-- Se renderizan las categorias principales (Documentos SIG, etc) -->
                         </ul>
                     </div>
 
                     <div class="my-3 mx-2 border-t border-slate-200 hidden-view" id="admin-divider"></div> 
 
                     <nav class="p-3 space-y-1">
+                        <button onclick="switchTab('accessgroups')" class="w-full flex items-center gap-3 p-3 rounded-lg text-slate-600 hover:bg-slate-50 border-l-4 border-transparent hover:text-corp-slate transition hidden-view group" id="tab-accessgroups">
+                            <i class="fa-solid fa-shield-halved w-5 text-slate-400 group-hover:text-corp-slate"></i> <span class="whitespace-nowrap">Grupos de Acceso</span>
+                        </button>
+                        <button onclick="switchTab('categories')" class="w-full flex items-center gap-3 p-3 rounded-lg text-slate-600 hover:bg-slate-50 border-l-4 border-transparent hover:text-corp-slate transition hidden-view group" id="tab-categories">
+                            <i class="fa-solid fa-layer-group w-5 text-slate-400 group-hover:text-corp-slate"></i> <span class="whitespace-nowrap">Gestión Categorías</span>
+                        </button>
                         <button onclick="switchTab('users')" class="w-full flex items-center gap-3 p-3 rounded-lg text-slate-600 hover:bg-slate-50 border-l-4 border-transparent hover:text-corp-slate transition hidden-view group" id="tab-users">
                             <i class="fa-solid fa-users-gear w-5 text-slate-400 group-hover:text-corp-slate"></i> <span class="whitespace-nowrap">Usuarios y Accesos</span>
                         </button>
@@ -164,6 +152,7 @@
 
             <main class="flex-1 relative overflow-y-auto bg-slate-100 w-full min-w-0 shadow-inner p-3 sm:p-5">
                 
+                <!-- VISTA: DASHBOARD -->
                 <div id="view-dashboard" class="w-full block">
                     
                     <div class="bg-white p-3 rounded-lg shadow-sm border border-slate-200 mb-4 flex flex-col md:flex-row justify-between items-center gap-3">
@@ -182,8 +171,10 @@
                         </div>
                     </div>
 
+                    <!-- DASHBOARD RESUMEN POR CATEGORÍAS -->
                     <div id="dashboard-summary" class="mb-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 hidden">
-                        </div>
+                        <!-- Las tarjetas se generan por JS -->
+                    </div>
 
                     <div class="space-y-6">
                         <div>
@@ -191,10 +182,10 @@
                                 <i class="fa-solid fa-triangle-exclamation"></i> Vencidos o Críticos (<span id="count-overdue">0</span>)
                             </h3>
                             <div class="bg-white rounded-xl shadow border border-red-200 overflow-hidden">
-                                <table class="w-full text-left border-collapse min-w-[800px] table-fixed">
+                                <table class="w-full text-left border-collapse min-w-[900px] table-fixed">
                                     <thead>
                                         <tr class="bg-red-50 text-corp-red uppercase text-[10px] tracking-wider border-b border-red-200">
-                                            <th class="p-3 font-bold w-5/12">Descripción / Categoría</th>
+                                            <th class="p-3 font-bold w-5/12">Descripción y Accesos</th>
                                             <th class="p-3 font-bold text-center w-2/12">F. Vencimiento</th>
                                             <th class="p-3 font-bold text-center w-2/12">Estado</th>
                                             <th class="p-3 font-bold text-center w-1/12">Notificaciones</th>
@@ -211,10 +202,10 @@
                                 <i class="fa-solid fa-bell"></i> En Alerta Amarilla (<span id="count-warning">0</span>)
                             </h3>
                             <div class="bg-white rounded-xl shadow border border-amber-200 overflow-hidden">
-                                <table class="w-full text-left border-collapse min-w-[800px] table-fixed">
+                                <table class="w-full text-left border-collapse min-w-[900px] table-fixed">
                                     <thead>
                                         <tr class="bg-amber-50 text-amber-800 uppercase text-[10px] tracking-wider border-b border-amber-200">
-                                            <th class="p-3 font-bold w-5/12">Descripción / Categoría</th>
+                                            <th class="p-3 font-bold w-5/12">Descripción y Accesos</th>
                                             <th class="p-3 font-bold text-center w-2/12">F. Vencimiento</th>
                                             <th class="p-3 font-bold text-center w-2/12">Estado</th>
                                             <th class="p-3 font-bold text-center w-1/12">Notificaciones</th>
@@ -231,10 +222,10 @@
                                 <i class="fa-solid fa-circle-check"></i> Controles Vigentes (<span id="count-good">0</span>)
                             </h3>
                             <div class="bg-white rounded-xl shadow border border-emerald-200 overflow-hidden opacity-90">
-                                <table class="w-full text-left border-collapse min-w-[800px] table-fixed">
+                                <table class="w-full text-left border-collapse min-w-[900px] table-fixed">
                                     <thead>
                                         <tr class="bg-emerald-50 text-emerald-800 uppercase text-[10px] tracking-wider border-b border-emerald-200">
-                                            <th class="p-3 font-bold w-5/12">Descripción / Categoría</th>
+                                            <th class="p-3 font-bold w-5/12">Descripción y Accesos</th>
                                             <th class="p-3 font-bold text-center w-2/12">F. Vencimiento</th>
                                             <th class="p-3 font-bold text-center w-2/12">Estado</th>
                                             <th class="p-3 font-bold text-center w-1/12">Notificaciones</th>
@@ -248,8 +239,98 @@
                     </div>
                 </div>
 
+                <!-- VISTA: GESTIÓN DE ACCESOS / PERMISOS INDIVIDUALES (NUEVA PANTALLA) -->
+                <div id="view-accessgroups" class="hidden-view w-full max-w-4xl">
+                    <h2 class="text-lg font-bold text-corp-slate border-l-4 border-corp-red pl-3 mb-5">Grupos de Acceso (Permisos a Nivel de Registro)</h2>
+                    <p class="text-xs text-slate-600 mb-6 bg-blue-50 p-3 rounded border border-blue-200">Estas etiquetas se usan para limitar la visibilidad de ciertos registros. Puedes crear un "Grupo A", "Grupo B" y asignarlos a los usuarios. Los usuarios solo verán los registros que contengan el grupo que se les asignó.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 border-t-4 border-t-indigo-500 md:col-span-1 h-min">
+                            <h3 class="text-sm font-bold text-slate-800 mb-3"><i class="fa-solid fa-shield-halved mr-2 text-indigo-500"></i>Nuevo Grupo Acceso</h3>
+                            <form id="add-accessgroup-form" class="space-y-3">
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wide mb-1">Nombre del Grupo/Permiso</label>
+                                    <input type="text" id="ag-name" placeholder="Ej. Acceso Equipo Norte" class="w-full p-2 border border-slate-300 rounded focus:border-indigo-500 outline-none text-sm" required>
+                                </div>
+                                <button type="submit" class="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 transition font-bold shadow text-xs">
+                                    Crear Grupo
+                                </button>
+                            </form>
+                        </div>
+
+                        <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden md:col-span-2">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-100 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200">
+                                        <th class="p-3 font-bold">Nombre del Grupo de Acceso</th>
+                                        <th class="p-3 font-bold text-center w-24">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="accessgroups-list" class="text-sm divide-y divide-slate-100"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VISTA: GESTIÓN DE CATEGORÍAS VISUALES -->
+                <div id="view-categories" class="hidden-view w-full max-w-4xl">
+                    <h2 class="text-lg font-bold text-corp-slate border-l-4 border-corp-red pl-3 mb-5">Categorías Visuales del Sistema</h2>
+                    <p class="text-xs text-slate-600 mb-6 bg-slate-200 p-3 rounded border border-slate-300">Las categorías sirven para organizar visualmente los registros en el menú lateral. El acceso real de quién puede ver qué se maneja en la pantalla "Grupos de Acceso".</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 border-t-4 border-t-corp-red md:col-span-1 h-min">
+                            <h3 class="text-sm font-bold text-slate-800 mb-3"><i class="fa-solid fa-folder-plus mr-2 text-corp-red"></i>Nueva Categoría</h3>
+                            <form id="add-category-form" class="space-y-3">
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wide mb-1">Nombre</label>
+                                    <input type="text" id="cat-name" class="w-full p-2 border border-slate-300 rounded focus:border-corp-red outline-none text-sm" required>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wide mb-1">Color (Hex)</label>
+                                        <input type="color" id="cat-color" class="w-full h-9 border border-slate-300 rounded cursor-pointer p-0.5" value="#3b82f6" required>
+                                    </div>
+                                    <div>
+                                        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wide mb-1">Ícono</label>
+                                        <select id="cat-icon" class="w-full p-2 border border-slate-300 rounded outline-none text-sm bg-slate-50 font-bold font-sans">
+                                            <option value="fa-folder-open">Carpeta</option>
+                                            <option value="fa-chalkboard-user">Pizarra</option>
+                                            <option value="fa-scale-balanced">Balanza</option>
+                                            <option value="fa-screwdriver-wrench">Herramientas</option>
+                                            <option value="fa-recycle">Reciclaje</option>
+                                            <option value="fa-award">Medalla</option>
+                                            <option value="fa-truck-medical">Ambulancia</option>
+                                            <option value="fa-fire-extinguisher">Extintor</option>
+                                            <option value="fa-hard-hat">Casco</option>
+                                            <option value="fa-kit-medical">Botiquín</option>
+                                            <option value="fa-truck">Camión</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button type="submit" class="w-full bg-corp-slate text-white py-2 rounded hover:bg-slate-800 transition font-bold shadow text-xs">
+                                    Crear Categoría
+                                </button>
+                            </form>
+                        </div>
+
+                        <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden md:col-span-2">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-100 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200">
+                                        <th class="p-3 font-bold">Ícono / Color</th>
+                                        <th class="p-3 font-bold">Nombre de Categoría</th>
+                                        <th class="p-3 font-bold text-center w-24">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="categories-list" class="text-sm divide-y divide-slate-100"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VISTA: USUARIOS -->
                 <div id="view-users" class="hidden-view w-full">
-                    <h2 class="text-lg font-bold text-corp-slate border-l-4 border-corp-red pl-3 mb-5">Gestión de Usuarios</h2>
+                    <h2 class="text-lg font-bold text-corp-slate border-l-4 border-corp-red pl-3 mb-5">Gestión de Usuarios y Permisos</h2>
                     
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 mb-5 border-t-4 border-t-emerald-600">
                         <h3 class="text-sm font-bold text-slate-800 mb-3"><i class="fa-solid fa-user-plus mr-2 text-emerald-600"></i>Crear Nuevo Acceso</h3>
@@ -267,12 +348,12 @@
                                 <input type="text" id="add-u-pass" class="w-full p-2 border border-slate-300 rounded focus:border-emerald-500 outline-none text-xs" required minlength="6">
                             </div>
                             <div>
-                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wide mb-1">Rol</label>
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wide mb-1">Rol Operativo</label>
                                 <div class="flex gap-2">
                                     <select id="add-u-rol" class="w-full p-2 border border-slate-300 rounded focus:border-emerald-500 outline-none text-xs font-bold bg-white">
                                         <option value="lector">Lector (Solo Vista)</option>
-                                        <option value="editor">Editor (Crear/Editar)</option>
-                                        <option value="admin">Administrador Total</option>
+                                        <option value="editor">Editor (Crea/Edita sus Grupos)</option>
+                                        <option value="admin">Administrador (Acceso Total)</option>
                                     </select>
                                     <button type="submit" class="bg-emerald-600 text-white px-3 rounded hover:bg-emerald-700 transition font-bold shadow text-xs">
                                         <i class="fa-solid fa-check"></i>
@@ -283,12 +364,13 @@
                     </div>
 
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden w-full">
-                        <table class="w-full text-left border-collapse min-w-[600px]">
+                        <table class="w-full text-left border-collapse min-w-[700px]">
                             <thead>
                                 <tr class="bg-slate-800 text-white uppercase text-[10px] tracking-wider">
                                     <th class="p-3 font-bold">Usuario / Correo</th>
-                                    <th class="p-3 font-bold text-center">Rol en Sistema</th>
-                                    <th class="p-3 font-bold text-center">Acciones</th>
+                                    <th class="p-3 font-bold text-center">Rol Base</th>
+                                    <th class="p-3 font-bold text-center">Control de Accesos (Grupos)</th>
+                                    <th class="p-3 font-bold text-center">Eliminar</th>
                                 </tr>
                             </thead>
                             <tbody id="users-list" class="text-sm divide-y divide-slate-100"></tbody>
@@ -296,6 +378,7 @@
                     </div>
                 </div>
 
+                <!-- VISTA: DIRECTORIO DE CORREOS -->
                 <div id="view-directory" class="hidden-view w-full max-w-4xl">
                     <h2 class="text-lg font-bold text-corp-slate border-l-4 border-corp-red pl-3 mb-5">Directorio de Correos para Notificaciones</h2>
                     
@@ -328,6 +411,7 @@
                     </div>
                 </div>
 
+                <!-- VISTA: AUDITORÍA DE ELIMINADOS -->
                 <div id="view-audit" class="hidden-view w-full">
                     <div class="flex justify-between items-center mb-5">
                         <h2 class="text-lg font-bold text-corp-slate border-l-4 border-corp-red pl-3">Registros Eliminados (Auditoría de Seguridad)</h2>
@@ -354,6 +438,7 @@
         </div>
     </div>
 
+    <!-- MODAL: REGISTRAR / EDITAR CONTROL -->
     <div id="modal-control" class="hidden fixed inset-0 bg-slate-900 bg-opacity-70 z-50 flex justify-center items-center p-4 backdrop-blur-sm transition-opacity">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-3xl border-t-4 border-corp-red p-5 relative overflow-y-visible max-h-[95vh] flex flex-col">
             <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-rose-500 transition text-xl z-50"><i class="fa-solid fa-xmark"></i></button>
@@ -371,19 +456,24 @@
                         <input type="text" id="item-name" placeholder="Ej. Extintores Área Norte, Arnés Petzl..." class="w-full p-2.5 border border-slate-300 rounded focus:border-corp-red focus:ring-1 focus:ring-corp-red outline-none text-sm" required>
                     </div>
                     <div>
-                        <label class="text-xs font-bold text-slate-600 uppercase block mb-1">Categoría</label>
-                        <select id="item-category" class="w-full p-2.5 border border-slate-300 rounded focus:border-corp-red outline-none text-sm font-medium bg-slate-50">
-                            <option value="Documentos SIG">Documentos SIG</option>
-                            <option value="Material de entrenamiento">Material de entrenamiento</option>
-                            <option value="Calibraciones">Calibraciones</option>
-                            <option value="Mantenimientos preventivos / correctivos">Mantenimientos preventivos / correctivos</option>
-                            <option value="Fin de vida útil">Fin de vida útil</option>
-                            <option value="Certificaciones">Certificaciones</option>
+                        <label class="text-xs font-bold text-slate-600 uppercase block mb-1">Categoría Visual</label>
+                        <select id="item-category" class="w-full p-2.5 border border-slate-300 rounded focus:border-corp-red outline-none text-sm font-medium bg-slate-50" required>
+                            <!-- Se llena por JS con las categorias -->
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-indigo-700 uppercase block mb-1"><i class="fa-solid fa-shield-halved"></i> Grupo de Acceso (Permiso)</label>
+                        <select id="item-access-group" class="w-full p-2.5 border border-indigo-300 bg-indigo-50 rounded focus:border-indigo-500 outline-none text-sm font-bold text-indigo-900" required>
+                            <!-- Se llena por JS con los permisos -->
                         </select>
                     </div>
                     <div>
                         <label class="text-xs font-bold text-slate-600 uppercase block mb-1">Fecha de Vencimiento</label>
                         <input type="date" id="item-date" class="w-full p-2.5 border border-slate-300 rounded focus:border-corp-red outline-none text-sm" required>
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-slate-600 uppercase block mb-1">Avisar antes de (Días)</label>
+                        <input type="number" id="item-warning-days" value="30" min="1" class="w-full p-2.5 border border-slate-300 rounded focus:border-corp-red outline-none text-sm" required>
                     </div>
                     
                     <div class="lg:col-span-2 relative">
@@ -395,11 +485,6 @@
                         <ul id="email-autocomplete" class="absolute w-full bg-white border border-slate-300 rounded shadow-lg z-50 hidden max-h-40 overflow-y-auto mt-1 divide-y divide-slate-100"></ul>
                         <input type="hidden" id="item-emails" required>
                         <p class="text-[10px] text-slate-400 mt-1">Puede escribir cualquier correo, no necesita estar en el directorio. Presione 'Enter' para agregarlo.</p>
-                    </div>
-
-                    <div>
-                        <label class="text-xs font-bold text-slate-600 uppercase block mb-1">Avisar antes de (Días)</label>
-                        <input type="number" id="item-warning-days" value="30" min="1" class="w-full p-2.5 border border-slate-300 rounded focus:border-corp-red outline-none text-sm" required>
                     </div>
                     
                     <div id="comment-container" class="lg:col-span-2 hidden">
@@ -428,6 +513,27 @@
         </div>
     </div>
 
+    <!-- MODAL: ASIGNAR GRUPOS A USUARIO (RBAC) -->
+    <div id="modal-assign-groups" class="hidden fixed inset-0 bg-slate-900 bg-opacity-70 z-50 flex justify-center items-center p-4 backdrop-blur-sm transition-opacity">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md border-t-4 border-blue-500 p-5 relative flex flex-col max-h-[80vh]">
+            <button onclick="closeAssignGroupsModal()" class="absolute top-4 right-4 text-slate-400 hover:text-rose-500 transition text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-lg font-bold text-blue-600 mb-1"><i class="fa-solid fa-shield-halved mr-2"></i>Asignar Grupos de Acceso</h3>
+            <p id="assign-user-name" class="text-xs text-slate-500 font-bold uppercase tracking-widest mb-4 border-b pb-2">Usuario:</p>
+            
+            <form id="assign-groups-form" class="flex flex-col flex-1 min-h-0">
+                <p class="text-[11px] text-slate-600 mb-2">Selecciona los permisos / grupos a los que este usuario tiene acceso:</p>
+                <div id="assign-groups-container" class="flex-1 overflow-y-auto border border-slate-200 rounded bg-slate-50 p-2 mb-4 space-y-1">
+                    <!-- Checkboxes dinámicos -->
+                </div>
+                <div class="flex justify-end gap-3 pt-2 shrink-0 border-t border-slate-100">
+                    <button type="button" onclick="closeAssignGroupsModal()" class="px-4 py-2 bg-slate-200 text-slate-700 rounded hover:bg-slate-300 transition text-sm font-bold">Cancelar</button>
+                    <button type="submit" class="px-5 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition shadow text-sm font-bold flex items-center gap-2"><i class="fa-solid fa-save"></i> Guardar Accesos</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: HISTORIAL INDIVIDUAL DEL REGISTRO -->
     <div id="modal-history" class="hidden fixed inset-0 bg-slate-900 bg-opacity-70 z-50 flex justify-center items-center p-4 backdrop-blur-sm transition-opacity">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl border-t-4 border-indigo-500 p-5 relative flex flex-col max-h-[90vh]">
             <button onclick="closeHistoryModal()" class="absolute top-4 right-4 text-slate-400 hover:text-rose-500 transition text-xl"><i class="fa-solid fa-xmark"></i></button>
@@ -438,10 +544,14 @@
             <p id="history-item-name" class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-4 pb-4 border-b border-slate-100 shrink-0">Nombre del equipo</p>
             
             <div id="history-timeline" class="flex-1 overflow-y-auto pr-2 space-y-4">
-                </div>
+                <!-- Se inyecta por JS -->
+            </div>
         </div>
     </div>
 
+    <!-- ==========================================
+         LÓGICA JAVASCRIPT (FIREBASE + APP)
+    =========================================== -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
@@ -463,20 +573,13 @@
         let currentUserData = null;
         let allItems = [];
         let allDeletedData = [];
+        let allCategories = []; 
+        let allAccessGroups = []; 
         let globalCategoryFilter = ''; 
 
-        // Variables para Autocompletado
         let emailTags = [];
         let emailDirectory = [];
-
-        const catIcons = {
-            "Documentos SIG": "fa-folder-open text-blue-500",
-            "Material de entrenamiento": "fa-chalkboard-user text-orange-500",
-            "Calibraciones": "fa-scale-balanced text-yellow-500",
-            "Mantenimientos preventivos / correctivos": "fa-screwdriver-wrench text-red-500",
-            "Fin de vida útil": "fa-recycle text-slate-500",
-            "Certificaciones": "fa-award text-emerald-500"
-        };
+        let currentAssignUserId = null;
 
         function togglePassword(inputId, iconId) {
             const input = document.getElementById(inputId);
@@ -496,14 +599,16 @@
         }
 
         function switchTab(tab) {
-            const views = ['dashboard', 'users', 'audit', 'directory'];
+            const views = ['dashboard', 'categories', 'accessgroups', 'users', 'audit', 'directory'];
             views.forEach(v => {
-                document.getElementById(`view-${v}`).classList.add('hidden-view');
+                const el = document.getElementById(`view-${v}`);
+                if(el) el.classList.add('hidden-view');
                 const btn = document.getElementById(`tab-${v}`);
                 if(btn) {
                     btn.classList.remove('bg-red-50', 'text-corp-red', 'border-corp-red');
                     btn.classList.add('border-transparent', 'text-slate-600');
-                    btn.querySelector('i').classList.replace('text-corp-red', 'text-slate-400');
+                    const i = btn.querySelector('i');
+                    if(i) i.classList.replace('text-corp-red', 'text-slate-400');
                 }
             });
 
@@ -512,36 +617,43 @@
             if(activeBtn) {
                 activeBtn.classList.remove('border-transparent', 'text-slate-600');
                 activeBtn.classList.add('bg-red-50', 'text-corp-red', 'border-corp-red');
-                activeBtn.querySelector('i').classList.replace('text-slate-400', 'text-corp-red');
+                const i = activeBtn.querySelector('i');
+                if(i) i.classList.replace('text-slate-400', 'text-corp-red');
             }
-
             if (window.innerWidth < 768) { toggleSidebar(); }
         }
 
         function applyRoleUI(rol) {
             const btnOpenModal = document.getElementById('btn-open-modal');
             const adminDivider = document.getElementById('admin-divider');
+            const tabCats = document.getElementById('tab-categories');
+            const tabGroups = document.getElementById('tab-accessgroups');
             const tabUsers = document.getElementById('tab-users');
             const tabAudit = document.getElementById('tab-audit');
             const tabDir = document.getElementById('tab-directory');
 
-            // Cambio Clave: Editor también descarga el directorio de correos
             if (rol === 'lector') {
                 btnOpenModal.classList.add('hidden-view');
                 adminDivider.classList.add('hidden-view');
+                if(tabCats) tabCats.classList.add('hidden-view');
+                if(tabGroups) tabGroups.classList.add('hidden-view');
                 tabUsers.classList.add('hidden-view');
                 tabAudit.classList.add('hidden-view');
                 tabDir.classList.add('hidden-view');
             } else if (rol === 'editor') {
                 btnOpenModal.classList.remove('hidden-view');
                 adminDivider.classList.add('hidden-view');
+                if(tabCats) tabCats.classList.add('hidden-view');
+                if(tabGroups) tabGroups.classList.add('hidden-view');
                 tabUsers.classList.add('hidden-view');
                 tabAudit.classList.add('hidden-view');
                 tabDir.classList.add('hidden-view');
-                loadEmailDirectory(); // Editor ahora puede autocompletar
+                loadEmailDirectory();
             } else if (rol === 'admin') {
                 btnOpenModal.classList.remove('hidden-view');
                 adminDivider.classList.remove('hidden-view');
+                if(tabCats) tabCats.classList.remove('hidden-view');
+                if(tabGroups) tabGroups.classList.remove('hidden-view');
                 tabUsers.classList.remove('hidden-view');
                 tabAudit.classList.remove('hidden-view');
                 tabDir.classList.remove('hidden-view');
@@ -549,8 +661,189 @@
                 loadDeletedAuditData();
                 loadEmailDirectory();
             }
+            
+            // Cargar datos principales
+            loadCategoriesData(); 
+            loadAccessGroupsData();
         }
 
+        /* ========================================================
+           SISTEMA DE GRUPOS DE ACCESO (PERMISOS RBAC)
+           ======================================================== */
+        function loadAccessGroupsData() {
+            db.collection("grupos_acceso").onSnapshot(async (snapshot) => {
+                if (snapshot.empty && currentUserData.rol === 'admin') {
+                    // Crear un grupo por defecto
+                    await db.collection("grupos_acceso").add({ nombre: "Acceso General" });
+                    return;
+                }
+
+                allAccessGroups = [];
+                snapshot.forEach(doc => allAccessGroups.push({ id: doc.id, ...doc.data() }));
+
+                renderAccessGroupsTable();
+                populateGroupSelects();
+                loadItemsData(); // Llama a cargar items después de saber los grupos
+            });
+        }
+
+        function renderAccessGroupsTable() {
+            const tbody = document.getElementById('accessgroups-list');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+            allAccessGroups.forEach(g => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50 transition border-b border-slate-100">
+                        <td class="p-3 text-sm font-bold text-indigo-800"><i class="fa-solid fa-lock text-indigo-400 mr-2"></i> ${g.nombre}</td>
+                        <td class="p-3 text-center"><button onclick="deleteAccessGroup('${g.id}')" class="text-red-500 hover:bg-red-100 p-1.5 rounded transition" title="Eliminar Grupo"><i class="fa-solid fa-trash"></i></button></td>
+                    </tr>
+                `;
+            });
+        }
+
+        document.getElementById('add-accessgroup-form')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('ag-name').value.trim();
+            if(allAccessGroups.find(g => g.nombre.toLowerCase() === name.toLowerCase())) { alert("El grupo ya existe."); return; }
+            await db.collection("grupos_acceso").add({ nombre: name });
+            e.target.reset();
+        });
+
+        window.deleteAccessGroup = async (id) => {
+            if(confirm("ATENCIÓN: Si elimina el grupo de acceso, los usuarios y registros asignados a él perderán la vinculación. ¿Continuar?")) {
+                await db.collection("grupos_acceso").doc(id).delete();
+            }
+        };
+
+        function populateGroupSelects() {
+            const select = document.getElementById('item-access-group');
+            if(!select) return;
+            select.innerHTML = '';
+            
+            let permitidos = allAccessGroups;
+            if (currentUserData.rol !== 'admin') {
+                const asignados = currentUserData.gruposAsignados || [];
+                permitidos = allAccessGroups.filter(g => asignados.includes(g.nombre));
+            }
+
+            if(permitidos.length === 0) {
+                select.innerHTML = `<option value="" disabled selected>No tienes permisos asignados</option>`;
+                return;
+            }
+            permitidos.forEach(g => {
+                select.innerHTML += `<option value="${g.nombre}">${g.nombre}</option>`;
+            });
+        }
+
+        /* ========================================================
+           SISTEMA DE CATEGORÍAS VISUALES
+           ======================================================== */
+        function loadCategoriesData() {
+            db.collection("categorias").onSnapshot(async (snapshot) => {
+                if (snapshot.empty && currentUserData.rol === 'admin') {
+                    const defaultCats = [
+                        { nombre: "Documentos SIG", icono: "fa-folder-open", color: "#3b82f6" },
+                        { nombre: "Material de entrenamiento", icono: "fa-chalkboard-user", color: "#f97316" },
+                        { nombre: "Calibraciones", icono: "fa-scale-balanced", color: "#eab308" },
+                        { nombre: "Mantenimientos preventivos / correctivos", icono: "fa-screwdriver-wrench", color: "#ef4444" },
+                        { nombre: "Fin de vida útil", icono: "fa-recycle", color: "#64748b" },
+                        { nombre: "Certificaciones", icono: "fa-award", color: "#10b981" }
+                    ];
+                    const batch = db.batch();
+                    defaultCats.forEach(c => {
+                        const ref = db.collection("categorias").doc();
+                        batch.set(ref, c);
+                    });
+                    await batch.commit();
+                    return; 
+                }
+
+                allCategories = [];
+                snapshot.forEach(doc => allCategories.push({ id: doc.id, ...doc.data() }));
+
+                renderSidebarCategories();
+                renderCategoriesAdminTable(); 
+                populateCategorySelect(); 
+            });
+        }
+
+        function renderSidebarCategories() {
+            const list = document.getElementById('sidebar-categories');
+            list.innerHTML = `
+                <li onclick="filterByCategory('')" class="cursor-pointer px-3 py-2 rounded-lg flex items-center gap-3 text-sm transition font-bold ${globalCategoryFilter === '' ? 'bg-slate-100 text-slate-700' : 'text-slate-600'}" id="cat-all">
+                    <i class="fa-solid fa-layer-group text-slate-400 w-4 text-center"></i> <span>Todas las Categorías</span>
+                </li>
+            `;
+
+            allCategories.forEach(c => {
+                const isActive = globalCategoryFilter === c.nombre;
+                list.innerHTML += `
+                    <li onclick="filterByCategory('${c.nombre}')" class="cursor-pointer px-3 py-2 rounded-lg flex items-center gap-3 text-sm transition ${isActive ? 'bg-slate-100 text-slate-700 font-bold' : 'text-slate-600 hover:bg-slate-50'}" id="cat-${c.nombre}">
+                        <i class="fa-solid ${c.icono} w-4 text-center" style="color: ${c.color}"></i> <span class="truncate leading-tight">${c.nombre}</span>
+                    </li>
+                `;
+            });
+        }
+
+        function populateCategorySelect() {
+            const select = document.getElementById('item-category');
+            if(!select) return;
+            select.innerHTML = '';
+            allCategories.forEach(c => {
+                select.innerHTML += `<option value="${c.nombre}">${c.nombre}</option>`;
+            });
+        }
+
+        function renderCategoriesAdminTable() {
+            const tbody = document.getElementById('categories-list');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+            allCategories.forEach(c => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50 transition border-b border-slate-100">
+                        <td class="p-3 text-center w-16"><div class="w-8 h-8 rounded bg-slate-100 flex items-center justify-center border shadow-inner border-slate-200"><i class="fa-solid ${c.icono}" style="color:${c.color}"></i></div></td>
+                        <td class="p-3 text-sm font-bold text-slate-700">${c.nombre}</td>
+                        <td class="p-3 text-center"><button onclick="deleteCategory('${c.id}')" class="text-red-500 hover:bg-red-100 p-1.5 rounded transition" title="Eliminar Categoría"><i class="fa-solid fa-trash"></i></button></td>
+                    </tr>
+                `;
+            });
+        }
+
+        document.getElementById('add-category-form')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('cat-name').value.trim();
+            const color = document.getElementById('cat-color').value;
+            const icon = document.getElementById('cat-icon').value;
+            if(allCategories.find(c => c.nombre.toLowerCase() === name.toLowerCase())) { alert("El nombre de categoría ya existe."); return; }
+            await db.collection("categorias").add({ nombre: name, color: color, icono: icon });
+            e.target.reset();
+        });
+
+        window.deleteCategory = async (id) => {
+            if(confirm("ATENCIÓN: Si elimina la categoría, los registros existentes mantendrán el texto pero perderán el ícono. ¿Continuar?")) {
+                await db.collection("categorias").doc(id).delete();
+            }
+        };
+
+        window.filterByCategory = (catName) => {
+            globalCategoryFilter = catName;
+            const label = document.getElementById('active-category-label');
+            if(catName === '') {
+                label.innerText = 'TODAS LAS CATEGORÍAS';
+                label.className = 'text-[10px] font-bold text-slate-500 bg-slate-100 border border-slate-200 px-2 py-1 rounded ml-2 uppercase hidden sm:inline-block';
+            } else {
+                label.innerText = catName;
+                label.className = 'text-[10px] font-bold text-corp-red bg-red-50 border border-red-200 px-2 py-1 rounded ml-2 uppercase hidden sm:inline-block';
+            }
+            
+            renderSidebarCategories();
+            renderItems();
+            if (window.innerWidth < 768) { toggleSidebar(); }
+        };
+
+        /* ========================================================
+           UTILIDADES DE TIEMPO
+           ======================================================== */
         function getStatusInfo(targetDateStr, warningDays) {
             const today = new Date();
             today.setHours(0,0,0,0);
@@ -601,7 +894,7 @@
             });
         }
 
-        document.getElementById('add-directory-form').addEventListener('submit', async (e) => {
+        document.getElementById('add-directory-form')?.addEventListener('submit', async (e) => {
             e.preventDefault();
             const input = document.getElementById('add-d-email');
             const emailVal = input.value.trim().toLowerCase();
@@ -689,7 +982,7 @@
                 let uDoc = await userRef.get();
                 
                 if (user.email === "supervision.rescate@gmail.com" && (!uDoc.exists || uDoc.data().rol !== 'admin')) {
-                    await userRef.set({ nombre: "Admin Rescate Toromocho", email: user.email, rol: 'admin' }, {merge: true});
+                    await userRef.set({ nombre: "Admin Rescate Toromocho", email: user.email, rol: 'admin', gruposAsignados: [] }, {merge: true});
                     uDoc = await userRef.get();
                 }
 
@@ -704,7 +997,6 @@
                     document.getElementById('app-screen').classList.remove('hidden-view');
                     
                     applyRoleUI(currentUserData.rol);
-                    loadItemsData();
                 } else {
                     alert("Acceso denegado o usuario no configurado.");
                     auth.signOut();
@@ -746,40 +1038,27 @@
            GESTIÓN DE VIGENCIAS (CRUD E HISTORIAL INTERNO)
            ======================================================== */
         function loadItemsData() {
+            // Verifica que ya existan grupos antes de cargar (por asincronía)
+            if(allAccessGroups.length === 0 && currentUserData.rol === 'admin') return; 
+
             db.collection("vigencias").onSnapshot(snapshot => {
                 allItems = [];
-                snapshot.forEach(doc => allItems.push({ id: doc.id, ...doc.data() }));
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    
+                    // FILTRO DE SEGURIDAD ABAC (Grupos de Acceso)
+                    if (currentUserData.rol === 'admin') {
+                        allItems.push({ id: doc.id, ...data });
+                    } else {
+                        const gruposDelUsuario = currentUserData.gruposAsignados || [];
+                        if (data.grupoAcceso && gruposDelUsuario.includes(data.grupoAcceso)) {
+                            allItems.push({ id: doc.id, ...data });
+                        }
+                    }
+                });
                 renderItems();
             });
         }
-
-        window.filterByCategory = (catName) => {
-            globalCategoryFilter = catName;
-            
-            const allItemsMenu = document.querySelectorAll('#sidebar-categories li');
-            allItemsMenu.forEach(el => {
-                el.classList.remove('bg-slate-100', 'text-slate-700', 'font-bold');
-                if(el.id !== 'cat-all') el.classList.add('text-slate-600');
-            });
-
-            const activeEl = document.getElementById(catName === '' ? 'cat-all' : `cat-${catName}`);
-            if (activeEl) {
-                activeEl.classList.remove('text-slate-600');
-                activeEl.classList.add('bg-slate-100', 'text-slate-700', 'font-bold');
-            }
-
-            const label = document.getElementById('active-category-label');
-            if(catName === '') {
-                label.innerText = 'TODAS LAS CATEGORÍAS';
-                label.className = 'text-[10px] font-bold text-slate-500 bg-slate-100 border border-slate-200 px-2 py-1 rounded ml-2 uppercase hidden sm:inline-block';
-            } else {
-                label.innerText = catName;
-                label.className = 'text-[10px] font-bold text-corp-red bg-red-50 border border-red-200 px-2 py-1 rounded ml-2 uppercase hidden sm:inline-block';
-            }
-
-            renderItems();
-            if (window.innerWidth < 768) { toggleSidebar(); }
-        };
 
         function renderItems() {
             const filterText = document.getElementById('filter-text').value.toLowerCase();
@@ -791,14 +1070,8 @@
             listOverdue.innerHTML = ''; listWarning.innerHTML = ''; listGood.innerHTML = '';
             let cOverdue = 0, cWarning = 0, cGood = 0;
 
-            const categoryCounts = {
-                "Documentos SIG": { overdue: 0, warning: 0 },
-                "Material de entrenamiento": { overdue: 0, warning: 0 },
-                "Calibraciones": { overdue: 0, warning: 0 },
-                "Mantenimientos preventivos / correctivos": { overdue: 0, warning: 0 },
-                "Fin de vida útil": { overdue: 0, warning: 0 },
-                "Certificaciones": { overdue: 0, warning: 0 }
-            };
+            const categoryCounts = {};
+            allCategories.forEach(c => categoryCounts[c.nombre] = { overdue: 0, warning: 0 });
 
             let sortedItems = [...allItems];
             sortedItems.sort((a, b) => new Date(a.fechaVencimiento) - new Date(b.fechaVencimiento));
@@ -816,7 +1089,13 @@
                 if (filterText && !item.nombre.toLowerCase().includes(filterText)) return;
                 if (globalCategoryFilter && item.categoria !== globalCategoryFilter) return;
 
-                const catIcon = catIcons[item.categoria] || 'fa-circle-dot text-slate-400';
+                const dynCat = allCategories.find(c => c.nombre === item.categoria);
+                const catIcon = dynCat ? dynCat.icono : 'fa-circle-dot';
+                const catColor = dynCat ? dynCat.color : '#94a3b8';
+
+                // Etiqueta de Permiso (Grupo de Acceso) o Advertencia de Legacy
+                const tagPermiso = item.grupoAcceso ? `<span class="bg-indigo-100 text-indigo-800 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase"><i class="fa-solid fa-lock mr-1"></i>${item.grupoAcceso}</span>` 
+                                                    : `<span class="bg-red-100 text-red-800 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase"><i class="fa-solid fa-triangle-exclamation mr-1"></i>Sin Grupo Asignado</span>`;
 
                 const statusBadge = isOverdue ? `<span class="bg-red-600 text-white px-2 py-1 rounded text-[10px] font-bold shadow-sm uppercase"><i class="fa-solid fa-xmark mr-1"></i> ${st.label}</span>` :
                                     isWarn ? `<span class="bg-amber-500 text-white px-2 py-1 rounded text-[10px] font-bold shadow-sm uppercase"><i class="fa-solid fa-triangle-exclamation mr-1"></i> ${st.label}</span>` :
@@ -836,7 +1115,10 @@
                     <tr class="hover:bg-slate-50 transition ${isOverdue ? 'bg-red-50/50' : isWarn ? 'bg-amber-50/30' : ''}">
                         <td class="p-3 overflow-hidden break-words whitespace-normal">
                             <div class="font-bold text-slate-800 text-sm break-words">${item.nombre}</div>
-                            <div class="text-[10px] text-slate-500 mt-1 uppercase tracking-wider font-semibold break-words"><i class="fa-solid ${catIcon} mr-1"></i> ${item.categoria}</div>
+                            <div class="mt-1 flex flex-wrap items-center gap-2">
+                                <span class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold break-words"><i class="fa-solid ${catIcon} mr-1" style="color:${catColor}"></i> ${item.categoria}</span>
+                                ${tagPermiso}
+                            </div>
                         </td>
                         <td class="p-3 text-center font-bold text-slate-700 text-sm">${item.fechaVencimiento.split('-').reverse().join('/')}</td>
                         <td class="p-3 text-center">${statusBadge}</td>
@@ -860,10 +1142,12 @@
                 summaryContainer.innerHTML = '';
                 Object.keys(categoryCounts).forEach(cat => {
                     const counts = categoryCounts[cat];
-                    const catIcon = catIcons[cat] || 'fa-circle-dot text-slate-400';
+                    const dynCat = allCategories.find(c => c.nombre === cat);
+                    const catIcon = dynCat ? dynCat.icono : 'fa-circle-dot';
+                    const catColor = dynCat ? dynCat.color : '#94a3b8';
                     summaryContainer.innerHTML += `
                         <div class="bg-white p-3 rounded-xl shadow-sm border border-slate-200 flex flex-col items-center text-center">
-                            <div class="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-2 h-8 flex items-center justify-center break-words w-full leading-tight"><i class="fa-solid ${catIcon} mr-1"></i> ${cat}</div>
+                            <div class="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-2 h-8 flex items-center justify-center break-words w-full leading-tight"><i class="fa-solid ${catIcon} mr-1" style="color:${catColor}"></i> ${cat}</div>
                             <div class="flex gap-3">
                                 <div class="flex flex-col items-center" title="Vencidos / Críticos">
                                     <span class="text-lg font-bold text-red-600 leading-none">${counts.overdue}</span>
@@ -894,6 +1178,7 @@
             const data = {
                 nombre: document.getElementById('item-name').value,
                 categoria: document.getElementById('item-category').value,
+                grupoAcceso: document.getElementById('item-access-group').value,
                 fechaVencimiento: document.getElementById('item-date').value,
                 correosNotificacion: document.getElementById('item-emails').value,
                 diasAviso: parseInt(document.getElementById('item-warning-days').value),
@@ -949,6 +1234,13 @@
             renderEmailTags();
 
             if(globalCategoryFilter) document.getElementById('item-category').value = globalCategoryFilter;
+            
+            // Auto seleccionar grupo de acceso si solo tiene 1
+            const selectGroup = document.getElementById('item-access-group');
+            if (selectGroup.options.length === 1 && selectGroup.options[0].value !== "") {
+                selectGroup.selectedIndex = 0;
+            }
+
             document.getElementById('modal-control').classList.remove('hidden');
         };
         
@@ -964,6 +1256,9 @@
             document.getElementById('item-date').value = item.fechaVencimiento;
             document.getElementById('item-warning-days').value = item.diasAviso;
             document.getElementById('item-send-now').checked = false;
+            
+            // Si tiene grupo, lo asigna. Si no, queda vacío (el Admin debe arreglarlo)
+            if(item.grupoAcceso) document.getElementById('item-access-group').value = item.grupoAcceso;
             
             emailTags = item.correosNotificacion ? item.correosNotificacion.split(',') : [];
             renderEmailTags();
@@ -1033,6 +1328,7 @@
                     usuarioResponsable: currentUserData.nombre,
                     equipoEliminado: item.nombre,
                     categoria: item.categoria,
+                    grupoAcceso: item.grupoAcceso || 'Sin Grupo',
                     motivo: motivo,
                     dataRespaldo: item 
                 });
@@ -1051,6 +1347,7 @@
                 snapshot.forEach(doc => allDeletedData.push({ id: doc.id, ...doc.data() }));
                 
                 const tbody = document.getElementById('audit-list');
+                if(!tbody) return;
                 tbody.innerHTML = '';
                 
                 if(allDeletedData.length === 0) {
@@ -1065,7 +1362,7 @@
                             <td class="p-3 text-xs font-bold text-slate-700">${log.usuarioResponsable}</td>
                             <td class="p-3">
                                 <div class="font-bold text-slate-800 text-xs">${log.equipoEliminado}</div>
-                                <div class="text-[10px] text-slate-500 mt-0.5 uppercase">${log.categoria}</div>
+                                <div class="text-[10px] text-slate-500 mt-0.5 uppercase">${log.categoria} | ${log.grupoAcceso}</div>
                             </td>
                             <td class="p-3 text-xs text-rose-700 italic break-words">"${log.motivo}"</td>
                         </tr>
@@ -1075,16 +1372,17 @@
         }
 
         /* ========================================================
-           GESTIÓN DE USUARIOS (ADMIN)
+           GESTIÓN DE USUARIOS Y ASIGNACIÓN DE GRUPOS (RBAC)
            ======================================================== */
         function loadUsers() {
             db.collection("usuarios").onSnapshot(snapshot => {
                 const tbody = document.getElementById('users-list');
+                if(!tbody) return;
                 tbody.innerHTML = '';
                 snapshot.forEach(doc => {
                     const u = { id: doc.id, ...doc.data() };
                     const isMaster = u.email === 'supervision.rescate@gmail.com';
-                    const delBtn = !isMaster ? `<button onclick="deleteUser('${u.id}')" class="text-red-500 hover:bg-red-100 p-1.5 rounded transition" title="Revocar Acceso"><i class="fa-solid fa-trash"></i></button>` : '<span class="text-[10px] text-slate-400">Protegido</span>';
+                    const delBtn = !isMaster ? `<button onclick="deleteUser('${u.id}')" class="text-red-500 hover:bg-red-100 p-2 rounded-full transition" title="Revocar Acceso"><i class="fa-solid fa-trash"></i></button>` : '<span class="text-[10px] text-slate-400">Protegido</span>';
                     
                     const roleSelect = !isMaster ? `
                         <select onchange="updateUserRole('${u.id}', this.value)" class="text-xs p-1 rounded border border-slate-300 outline-none">
@@ -1092,7 +1390,13 @@
                             <option value="editor" ${u.rol === 'editor' ? 'selected' : ''}>Editor</option>
                             <option value="admin" ${u.rol === 'admin' ? 'selected' : ''}>Admin</option>
                         </select>
-                    ` : '<span class="text-xs font-bold text-corp-red">Admin Principal</span>';
+                    ` : '<span class="text-xs font-bold text-corp-red">Admin Master</span>';
+
+                    const assignBtn = u.rol !== 'admin' ? `
+                        <button onclick="openAssignGroupsModal('${u.id}', '${u.nombre}')" class="text-blue-500 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 py-1.5 px-3 rounded shadow-sm transition flex items-center justify-center gap-1.5 text-xs font-bold mx-auto" title="Asignar Grupos">
+                            <i class="fa-solid fa-shield-halved"></i> Accesos
+                        </button>
+                    ` : '<span class="text-[10px] text-slate-400 italic">Acceso Total</span>';
 
                     tbody.innerHTML += `
                         <tr class="border-b border-slate-100 hover:bg-slate-50">
@@ -1101,14 +1405,15 @@
                                 <div class="text-[10px] text-slate-500">${u.email}</div>
                             </td>
                             <td class="p-3 text-center">${roleSelect}</td>
-                            <td class="p-3 text-center">${delBtn}</td>
+                            <td class="p-3 text-center align-middle">${assignBtn}</td>
+                            <td class="p-3 text-center align-middle">${delBtn}</td>
                         </tr>
                     `;
                 });
             });
         }
 
-        document.getElementById('add-user-form').addEventListener('submit', async (e) => {
+        document.getElementById('add-user-form')?.addEventListener('submit', async (e) => {
             e.preventDefault();
             const name = document.getElementById('add-u-name').value;
             const email = document.getElementById('add-u-email').value;
@@ -1118,10 +1423,10 @@
             try {
                 const secondaryApp = firebase.initializeApp(firebaseConfig, "SecondaryApp");
                 const res = await secondaryApp.auth().createUserWithEmailAndPassword(email, pass);
-                await db.collection("usuarios").doc(res.user.uid).set({ nombre: name, email: email, rol: rol });
+                await db.collection("usuarios").doc(res.user.uid).set({ nombre: name, email: email, rol: rol, gruposAsignados: [] });
                 await secondaryApp.auth().signOut();
                 await secondaryApp.delete();
-                alert("Usuario creado correctamente.");
+                alert("Usuario creado correctamente. Configure sus accesos.");
                 e.target.reset();
             } catch (err) { alert("Error al crear usuario: " + err.message); }
         });
@@ -1132,6 +1437,51 @@
                 await db.collection("usuarios").doc(id).delete();
             }
         };
+
+        // Modal para asignar permisos RBAC (Grupos)
+        window.openAssignGroupsModal = async (uid, userName) => {
+            currentAssignUserId = uid;
+            document.getElementById('assign-user-name').innerText = `Usuario: ${userName}`;
+            
+            const uDoc = await db.collection("usuarios").doc(uid).get();
+            const asignadas = uDoc.data().gruposAsignados || [];
+            
+            const container = document.getElementById('assign-groups-container');
+            container.innerHTML = '';
+            
+            if(allAccessGroups.length === 0) {
+                container.innerHTML = '<p class="text-xs text-slate-500 p-2 text-center">No hay grupos de acceso creados en el sistema.</p>';
+            } else {
+                allAccessGroups.forEach(g => {
+                    const isChecked = asignadas.includes(g.nombre) ? 'checked' : '';
+                    container.innerHTML += `
+                        <label class="flex items-center gap-3 p-2.5 hover:bg-white border-b border-slate-100 cursor-pointer text-sm transition rounded">
+                            <input type="checkbox" value="${g.nombre}" class="assign-cb w-4 h-4 text-blue-600 rounded border-slate-300 focus:ring-blue-500" ${isChecked}>
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-lock w-4 text-center text-blue-400"></i>
+                                <span class="font-medium text-slate-700">${g.nombre}</span>
+                            </div>
+                        </label>
+                    `;
+                });
+            }
+            document.getElementById('modal-assign-groups').classList.remove('hidden');
+        };
+
+        window.closeAssignGroupsModal = () => {
+            document.getElementById('modal-assign-groups').classList.add('hidden');
+            currentAssignUserId = null;
+        };
+
+        document.getElementById('assign-groups-form')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const cbs = document.querySelectorAll('.assign-cb');
+            const selected = Array.from(cbs).filter(cb => cb.checked).map(cb => cb.value);
+            
+            await db.collection("usuarios").doc(currentAssignUserId).update({ gruposAsignados: selected });
+            closeAssignGroupsModal();
+            alert("Accesos guardados. El usuario ahora podrá ver/editar en estos grupos.");
+        });
 
         /* ========================================================
            EXPORTAR A EXCEL (SheetJS)
@@ -1146,7 +1496,8 @@
                 const st = getStatusInfo(t.fechaVencimiento, t.diasAviso);
                 return {
                     "Descripción / Equipo": t.nombre,
-                    "Categoría": t.categoria,
+                    "Categoría Visual": t.categoria,
+                    "Grupo de Acceso (Permiso)": t.grupoAcceso || 'SIN ASIGNAR',
                     "Fecha Vencimiento": t.fechaVencimiento.split('-').reverse().join('/'),
                     "Estado Actual": st.status === 'overdue' ? 'VENCIDO' : st.status === 'warning' ? 'POR VENCER' : 'VIGENTE',
                     "Días Restantes": st.days,
