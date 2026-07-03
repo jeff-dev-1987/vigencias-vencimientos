@@ -525,6 +525,7 @@
             const tabAudit = document.getElementById('tab-audit');
             const tabDir = document.getElementById('tab-directory');
 
+            // Cambio Clave: Editor también descarga el directorio de correos
             if (rol === 'lector') {
                 btnOpenModal.classList.add('hidden-view');
                 adminDivider.classList.add('hidden-view');
@@ -537,6 +538,7 @@
                 tabUsers.classList.add('hidden-view');
                 tabAudit.classList.add('hidden-view');
                 tabDir.classList.add('hidden-view');
+                loadEmailDirectory(); // Editor ahora puede autocompletar
             } else if (rol === 'admin') {
                 btnOpenModal.classList.remove('hidden-view');
                 adminDivider.classList.remove('hidden-view');
@@ -789,7 +791,6 @@
             listOverdue.innerHTML = ''; listWarning.innerHTML = ''; listGood.innerHTML = '';
             let cOverdue = 0, cWarning = 0, cGood = 0;
 
-            // Objeto para llevar el conteo para el Dashboard Summary
             const categoryCounts = {
                 "Documentos SIG": { overdue: 0, warning: 0 },
                 "Material de entrenamiento": { overdue: 0, warning: 0 },
@@ -803,18 +804,15 @@
             sortedItems.sort((a, b) => new Date(a.fechaVencimiento) - new Date(b.fechaVencimiento));
 
             sortedItems.forEach(item => {
-                // Cálculo de estado
                 const st = getStatusInfo(item.fechaVencimiento, item.diasAviso);
                 const isOverdue = st.status === 'overdue';
                 const isWarn = st.status === 'warning';
 
-                // Agregar al conteo del dashboard general antes de filtrar visualmente
                 if (categoryCounts[item.categoria]) {
                     if (isOverdue) categoryCounts[item.categoria].overdue++;
                     if (isWarn) categoryCounts[item.categoria].warning++;
                 }
 
-                // Filtrar visualmente las listas inferiores
                 if (filterText && !item.nombre.toLowerCase().includes(filterText)) return;
                 if (globalCategoryFilter && item.categoria !== globalCategoryFilter) return;
 
@@ -858,7 +856,6 @@
             document.getElementById('count-warning').innerText = cWarning;
             document.getElementById('count-good').innerText = cGood;
 
-            // Renderizar Dashboard Summary si estamos en "Todas las Categorías"
             if (globalCategoryFilter === '') {
                 summaryContainer.innerHTML = '';
                 Object.keys(categoryCounts).forEach(cat => {
